@@ -1,1 +1,1 @@
-# guruwatch_api
+# Guru watch API - TRPC
