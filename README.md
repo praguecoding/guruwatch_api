@@ -2,10 +2,6 @@
 
 Jedna se o klient pro TRPC API serveru Guruwatch.
 
-```shell
-npm run api
-```
-
 Spustění zde:
 
 ```shell
