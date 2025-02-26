@@ -14,12 +14,65 @@ npm run dev
 
 # Popis
 
-Klient se připojuje k API serveru a umožňuje spousty různých operací.
+Klient se připojuje k API serveru Guruwatch a umožňuje provádět následující operace:
 
-V souboru `src/index.ts` je ukázka použití.
+## Základní operace
 
-# Připomínky
+- **Získání seznamu projektů** - `trpc.getProjects.query()`
+- **Získání produktů projektu** - `trpc.getProducts.query({ projectId })`
 
-- Projekty se získávají z API, ale vůbec se neukládají do lokálního stavu.
-- Při editaci produktu se opět získávají projekty z API.
-- Při mazání produktu se opět získávají projekty z API.
+## Správa produktů
+
+### Přidávání produktů
+
+Nový produkt lze přidat pomocí mutace `addProduct`:
+
+```typescript
+const result = await trpc.addProduct.mutate({
+  name: "Název produktu",
+  price: 999,
+  ean: "1234567890123",
+  code: "KOD001",
+  category1: "Hlavní kategorie",
+  category2: "Podkategorie",
+  projectId: "ID_projektu",
+});
+
+// Výsledek obsahuje:
+// - success: boolean - úspěch operace
+// - _id: string - ID nově vytvořeného produktu
+```
+
+### Editace produktů
+
+Existující produkt lze upravit pomocí mutace `setProduct`:
+
+```typescript
+const updateResult = await trpc.setProduct.mutate({
+  _id: "ID_produktu",
+  name: "Nový název",
+  price: 1500,
+  ean: "1234567890123",
+  code: "KOD001",
+  category1: "Nová kategorie",
+  category2: "Nová podkategorie",
+});
+
+// Výsledek obsahuje:
+// - success: boolean - úspěch operace
+```
+
+### Mazání produktů
+
+Produkt lze smazat pomocí mutace `deleteProduct`:
+
+```typescript
+const deleteResult = await trpc.deleteProduct.mutate({
+  productId: "ID_produktu",
+});
+
+// Výsledek obsahuje:
+// - success: boolean - úspěch operace
+```
+
+V souboru `src/index.ts` je kompletní ukázka použití všech těchto operací.
